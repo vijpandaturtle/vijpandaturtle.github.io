@@ -3,13 +3,13 @@ layout: resume
 ---
 ## Currently
 
-Working as Junior Research Fellow 
+Working as Junior Research Fellow at Amrita Centre for Cybersecurity. 
 
 ## Education
 
-`1990 - 1994`
-__University Name__
-Degree Awarded
+`2016 - 2020`
+Vidyalankar Institute of Technology (Affiliated to Mumbai University)
+Bachelor of Engineering in Information Technology 
 
 `1995 - 1997`
 __University Name__
