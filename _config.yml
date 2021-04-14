@@ -1,14 +1,14 @@
 # Site wide configuration
 
 title: One Eclectic
-locale: en_IN
+locale: Mumbai, India
 logo: # filename of a logo image that has been placed into your images directory
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
   name: Vijayasri Iyer
   avatar: bio-photo.jpg
-  bio: "Engineer. Researcher. Eclectic nerd."
+  bio: "Software Engineer. Researcher. Open-source contributor"
   email: thisisvij98@gmail.com
   # Do not include the @ symbol in your Twitter username
   twitter: thisisvij98
@@ -21,7 +21,7 @@ owner:
     plus: #username
     analytics:
     verify:
-    scholar: https://scholar.google.com/citations?user=K_ST0dMAAAAJ&hl=en
+    scholar: K_ST0dMAAAAJ
   facebook: #username
   instagram: #username
   bing-verify:
