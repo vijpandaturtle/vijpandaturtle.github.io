@@ -11,7 +11,7 @@ owner:
   bio: "Engineer. Researcher. Eclectic nerd."
   email: thisisvij98@gmail.com
   # Do not include the @ symbol in your Twitter username
-  twitter: #username
+  twitter: thisisvij98
   linkedin: vijayasriiyer
   github: vijpandaturtle
   orcid: # ID Number (ex. 0000-0000-0000-0000)
@@ -21,7 +21,7 @@ owner:
     plus: #username
     analytics:
     verify:
-    scholar: #id
+    scholar: https://scholar.google.com/citations?user=K_ST0dMAAAAJ&hl=en
   facebook: #username
   instagram: #username
   bing-verify:
