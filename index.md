@@ -3,7 +3,9 @@ layout: page
 excerpt: "About Me..."
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Engineer and researcher seeking to do impactful projects in Artificial Intelligence across different domains.
+Graduated with a Bachelor's degree in Information Technology Engineering. Completed several online degrees in Deep Learning, Robotics Software Engineering, Web Development, Data Science and a Pre-MBA certification from Harvard Business School Online. Also completed graduate level coursework in Public policy with a specialization in tech and policy.
+Done an internship at a drug-discovery lab and written two papers on AI algorithms for quantum and classical computers to perform image classification. Worked independently with high-impact research groups on academic projects which we have presented at international conferences. Finished a contract as a software engineer/junior research fellow with the Cybersecurity Department at Amrita University.
 
 ## Current Interests and Projects:
 
