@@ -8,20 +8,20 @@ Graduate Student at Amrita Vishwa Vidyapeetham
 ## Education
 
 `2016 - 2020`
-Vidyalankar Institute of Technology (Affiliated to Mumbai University), Bachelor of Engineering in Information Technology 
+University of Mumbai, B.E in Information Technology 
 
 `2021 - 2023`
-Amrita Vishwa Vidyapeetham, MTech in Artificial Intelligence
+Amrita Vishwa Vidyapeetham, M.Tech in Artificial Intelligence
 
 
 ## Awards
 
-`2012`
-Name of Award, Organization 
+`2016`
+BSc Scholarship, State Govt of Maharashtra 
 
 ## Publications
 
-<!-- A list is also available [online](https://scholar.google.co.uk/citations?user=LTOTl0YAAAAJ) -->
+A list is also available [online](https://scholar.google.com/citations?user=K_ST0dMAAAAJ&hl=en)
 1. [An AI driven Genomic Profiling System and Secure Data Sharing using DLT for cancer patients](https://ieeexplore.ieee.org/document/8973020)
 2. [ Hybrid quantum computing based early detection of skin cancer](http://url310.tandfonline.com/ls/click?upn=odl8Fji2pFaByYDqV3bjGMQo8st9of2228V6AcSFNq3t86qU90pAx-2BEad4OTI0D6sA8oPQ2ZJVN1dPO1Q92cT6uWsFVqYLU9dH3TFkv4UY4-3D49wq_cjuZS4RWd2rmllHwS-2Fk374ljvjO-2BEFqm2bq82rNzqflM6Fj0JXxMFPeu33bkyrBUkQ8mqGq1GwPxmf52s817qGRbMvzCupCUtE6lNIaCeBDOxKg0sZpi1VUUJGtfP73KafLwbR-2Bp-2BSpUcR77BhZ2ln7Gzir3eEcfMSXVpJ1M1-2BdH-2F-2BKteIJZoPmKUQZ2SDagtVOhYq1iBXEIBHNRnbwvAY02VJ6LST1BiMg29Qx-2BLC-2FUzCk81-2Bt1Gaqg-2FjNwsfFWxJOc9MahaeYJXmPjib8Mc-2B004uQRk-2BGsm583o6Qho2o-3D)
 4. [Quantum Machine Learning as HEP-tool](https://jaorduz.github.io/talks/2020-07-09-talk-1)
@@ -41,15 +41,6 @@ __Junior Research Fellow__, Amrita Vishwa Vidyapeetham
 
 - Task
 - Task
-
-`1994-1996`
-__Current Job Title__, Current Employer 
-
-- Task
-- Task
-
-
-
 <!-- ### Footer
 
 Last updated: May 2013 -->
