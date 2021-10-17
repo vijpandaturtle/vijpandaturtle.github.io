@@ -43,13 +43,19 @@ Autonomous Vehicles in a Developing Country : A discussion, IEEE IV BROAD Worksh
 `2020`
 Hybrid Quantum Neural Networks, WiML@ICML 2020, <a href="">Link to Presentation</a>
 
-## Occupation
+## Experience
 
 `2020-2021`
 __Junior Research Fellow__, Amrita Vishwa Vidyapeetham 
 
 - Built backend architecture using Django and SQL for a mobile device security application.
 - Responsible for exploring new tools at the intersection of ML and Cybersecurity (Malware Detection and Classification) for the project.
+
+`2017-2018, 2018-2019`
+__Undergraduate Research Intern__, Amrita Vishwa Vidyapeetham 
+
+- Worked with Dr.P K Krishnan Namboori to test new algorithms for medical imaging, such as Siamese neural networks and hybrid quantum neural networks. 
+- Published two research papers in IEEEExplore and Taylor&Francis
 
 <!-- ### Footer
 
