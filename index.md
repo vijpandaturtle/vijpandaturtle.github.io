@@ -3,17 +3,29 @@ layout: page
 excerpt: "About Me..."
 ---
 
-Engineer and researcher seeking to do impactful projects in Artificial Intelligence across different domains.
-- Graduate Student pursuing a Master's Degree in Artificial Intelligence
-- Graduated with a Bachelor's degree in Information Technology Engineering. 
-- Completed several online degrees in Deep Learning, Robotics Software Engineering, Web Development, Data Science and a Pre-MBA certification from Harvard Business School Online. Also completed graduate level coursework in Public policy with a specialization in tech and policy.
-- Worked as an intern at a drug-discovery lab and written two papers and independently with high-impact research groups on academic projects which we have presented at international conferences. 
-- - Worked as a software engineer/junior research fellow with the Cybersecurity Department at Amrita University.
+Engineer and researcher working on impactful (open-source and closed-source) projects in Machine Learning across different domains. Pursuing a master's degree in AI. 
 
 ## Current Interests and Projects:
 
-- Lorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
-- DLorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
+**Machine Learning & Data Science**
+
+- [COVID Prediction App](https://github.com/vijpandaturtle/covid-voice)
+- [TV Script Generation](https://github.com/vijpandaturtle/TV-script-generator)
+- [Image Classification](https://github.com/vijpandaturtle/facial-expressions)
+- [Language Translation](https://github.com/vijpandaturtle/deep-language-translate)
+- [Celebrity Face Generation Using GANs](https://github.com/vijpandaturtle/face-generator-GAN)
+- [Human Trafficking Analysis](https://github.com/vijpandaturtle/trafficking-analysis) 
+- [Disaster Response Pipeline](https://github.com/vijpandaturtle/disaster-response-pipeline)
+- [Brain Tumor Classification](https://github.com/vijpandaturtle/brain-tumor-classification)
+ 
+**Robotics & Simulation** 
+
+- [Autonomous Robot Localization](https://github.com/vijpandaturtle/where_am_i)
+- [Pick and place robot arm](https://github.com/vijpandaturtle/robotic-arm-pick-and-place)
+- [Home Service Robot](https://github.com/vijpandaturtle/home_service_bot)
+- [Map My World Robot](https://github.com/vijpandaturtle/map_my_world)
+- [Deep RL Manipulator](https://github.com/vijpandaturtle/deepRL-manipulator)
+- [Autonomous Rover](https://github.com/vijpandaturtle/search-sample-return)
+- [Follow Me Drone](https://github.com/vijpandaturtle/Follow-me-drone)
+- [PR2 Robot Perception](https://github.com/vijpandaturtle/pr2-perception3d)
+
