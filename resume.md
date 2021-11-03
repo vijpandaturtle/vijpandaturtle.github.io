@@ -57,8 +57,8 @@ __Undergraduate Research Intern__, Amrita Vishwa Vidyapeetham
 - Worked with Dr.P K Krishnan Namboori to test new algorithms for medical imaging, such as Siamese neural networks and hybrid quantum neural networks. 
 - Published two research papers in IEEEExplore and Taylor&Francis
 
-<!-- ### Footer
+### Footer
 
-Last updated: May 2013 -->
+Last updated: Nov 2021
 
 

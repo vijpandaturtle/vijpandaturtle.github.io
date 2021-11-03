@@ -1,13 +1,13 @@
 # Site wide configuration
 
-title: One Eclectic
+title: [Vijayasri Iyer](https://vijpandaturtle.github.io/)
 locale: Mumbai, India
 logo: # filename of a logo image that has been placed into your images directory
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
   name: Vijayasri Iyer
-  avatar: bio-photo.jpg
+  avatar: bio-photo.jpeg
   bio: "Software Engineer. Researcher. Open-source contributor"
   email: thisisvij98@gmail.com
   # Do not include the @ symbol in your Twitter username
@@ -23,7 +23,7 @@ owner:
     verify:
     scholar: K_ST0dMAAAAJ
   facebook: #username
-  instagram: #username
+  instagram: girl_with_two_names
   bing-verify:
   stackoverflow: #123456/username from a "https://stackoverflow.com/users/123456/username" link
   xing: #username
