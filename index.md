@@ -1,6 +1,6 @@
 ---
 layout: page
-excerpt: "About Me..."
+excerpt: "About Me Vijayasri Iyer"
 ---
 
 Engineer and researcher working on impactful (open-source and closed-source) projects in Machine Learning across different domains. Pursuing a master's degree in AI. 
