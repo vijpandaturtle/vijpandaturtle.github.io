@@ -16,13 +16,14 @@ Please visit my github for a full list of [projects](https://github.com/vijpanda
 **Research Interests** - Computer Vision, ML for Robotics, Brain Computer Interfaces, Computational Creativity
 
 ## Skills 
-**Machine Learning** : Python, scikit-learn, pandas, seaborn, sympy, pyspark, Tensorflow, Keras, PyTorch
-**Robotics Software** : ROS, Gazebo, C++, Node-RED,  
-**Quantum Computing** : Pennylane, Qiskit
-**Web Development** : HTML/CSS/JS, NodeJS, Flask, Django, SQL, MySQL, Bootstrap, MongoDB
-**Cloud Computing** : AWS(DynamoDB, IoT Core, EC2, ECS, Kinesis, Sagemaker)
-**Tools** :  Anaconda, Jira, Git, LaTeX
-**3D** : Unity Game Engine, C#, Fusion 360
+- **Machine Learning** : Python, scikit-learn, pandas, seaborn, sympy, pyspark, Tensorflow, Keras, PyTorch
+- **Robotics Software** : ROS, Gazebo, C++, Node-RED,  
+- **Quantum Computing** : Pennylane, Qiskit
+- **Web Development** : HTML/CSS/JS, NodeJS, Flask, Django, SQL, MySQL, Bootstrap, MongoDB
+- **Cloud Computing** : AWS(DynamoDB, IoT Core, EC2, ECS, Kinesis, Sagemaker)
+- **Tools** :  Anaconda, Jira, Git, LaTeX
+- **3D** : Unity Game Engine, C#, Fusion 360
+- **Hardware** : Arduino, Raspberry-Pi, Jetson TX2, OpenBCI Ganglion 
 
 ## Other Interests
 Musician, Certified Yoga Instructor
