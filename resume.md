@@ -13,6 +13,28 @@ University of Mumbai, B.E in Information Technology
 `2021 - 2023`
 Amrita Vishwa Vidyapeetham, M.Tech in Artificial Intelligence
 
+## Online Coursework 
+
+`2021 - 2021`
+IIT Madras ACSE, Advanced Certification for Software Engineering in Cloud, Iot and Blockchain
+
+`2021 - 2021`
+Neuromatch Academy, Computational Neuroscience Summer School
+
+`2021 - 2021`
+Takshashila Institution, Graduate Certificate in Public Policy (Technology & Ethics Specialization)
+
+`2018-2018`
+Harvard Business School Online, CoRE (Credentials of Readiness) Program
+
+`2017 - 2018`
+Robotics Software Engineering Nanodegree 
+
+`2017 - 2017`
+Deep Learning Nanodegree 
+
+`2016 - 2017`
+Front End Web Developer Nanodegree
 
 ## Awards
 
