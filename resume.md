@@ -57,14 +57,6 @@ BSc Scholarship, State Govt of Maharashtra
 
 A list is also available [online](https://scholar.google.com/citations?user=K_ST0dMAAAAJ&hl=en)
 
-## Presentations
-
-`2020`
-Autonomous Vehicles in a Developing Country : A discussion, IEEE IV BROAD Workshop Invited Talk,<a href="https://docs.google.com/presentation/d/e/2PACX-1vTaJWo33Ew_ut4brWYmXTA2xTBvmiM7lc1S38E4lvdtrnYpkYHm0JI7oOXwRheOBeJ006oXHZ_rXVT2/pub?start=false&loop=false&delayms=3000&slide=id.g9557a19c5a_1_444">Link to Presentation</a>
-
-`2020`
-Hybrid Quantum Neural Networks, WiML@ICML 2020, <a href="">Link to Presentation</a>
-
 ## Experience
 
 `2020-2021`
