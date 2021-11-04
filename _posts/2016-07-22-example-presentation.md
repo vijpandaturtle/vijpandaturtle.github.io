@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: slide
 title: Example Reveal.js Presentation Deck
 excerpt: A sample file showing the correct markup for creating a Reveal.js slide deck"
@@ -34,4 +34,4 @@ Jekyll Academic includes everything that you need in order to make Reveal.js wor
 For more information about all of the options available in Reveal.js please the [Reveal.js Demo Website](https://lab.hakim.se/reveal-js/#/)
 
 
-</section>
+</section> -->
