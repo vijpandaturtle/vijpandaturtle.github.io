@@ -3,7 +3,7 @@ layout: page
 excerpt: "About Me Vijayasri Iyer"
 ---
 
-I'm Vijayasri. I'm an Engineer by profession. I'd like to call myself someone who loves to learn, dream about and create new things that make a difference in someone's life (including my own!). 
+I'm Vijayasri. I'm an Engineer by profession. I'd like to call myself someone who loves to learn, dream about and create new things that make a difference in someone's life. 
 
 ## Experience
 - Pursuing a Master's degree at Amrita University, having worked there as an intern at drug-discovery lab and for 6 months as a software engineer/Junior research fellow. 
