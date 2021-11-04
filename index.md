@@ -14,5 +14,7 @@ I'm vij. I'm an Engineer by profession. I'd like to call myself someone who love
 - Finished rigorous online coursework with projects in Deep Learning, Robotics Software Engineering, Internet of Things and Cloud Computing. 
 - Collaborated with several research groups across the world on technical projects. 
 
+Please visit my github for a full list of [projects](https://github.com/vijpandaturtle). 
+
 ## Other Interests
 Musician, Certified Yoga Instructor
