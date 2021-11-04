@@ -15,7 +15,7 @@ Amrita Vishwa Vidyapeetham, M.Tech in Artificial Intelligence
 
 ## Online Coursework 
 
-`2021 - 2021`
+`2021 - 2022`
 IIT Madras ACSE, Advanced Certification for Software Engineering in Cloud, Iot and Blockchain
 
 `2021 - 2021`
