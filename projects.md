@@ -5,6 +5,7 @@ excerpt: "Recent Projects"
 ---
 
 ### [AWS Healthcare Cloud Monitoring]()
+Simulation of a cloud based patient bedside monitor using synthetic data and AWS (IoT Core, DynamoDB, boto3, AWSIoTPythonSDK)
 
 ### [Smart Home Simulation MQTT (IoT)](https://github.com/vijpandaturtle/smart-home-simulation-mqtt)
 Building a smart home simulation using PyMQTT and synthetically generated sensor data. 
