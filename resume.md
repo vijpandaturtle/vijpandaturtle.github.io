@@ -1,9 +1,8 @@
 ---
 layout: resume
 ---
-## Currently
-Graduate Student at Amrita Vishwa Vidyapeetham
 
+Graduate Student at Amrita Vishwa Vidyapeetham
 
 ## Education
 
