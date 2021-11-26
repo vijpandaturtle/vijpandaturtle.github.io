@@ -4,7 +4,7 @@ title: Projects
 excerpt: "Recent Projects"
 ---
 
-### [AWS Healthcare Cloud Monitoring]()
+### [AWS Healthcare Cloud Monitoring](https://github.com/vijpandaturtle/patient-monitoring-simulation-aws)
 Simulation of a cloud based patient bedside monitor using synthetic data and AWS (IoT Core, DynamoDB, boto3, AWSIoTPythonSDK)
 
 ### [Smart Home Simulation MQTT (IoT)](https://github.com/vijpandaturtle/smart-home-simulation-mqtt)
