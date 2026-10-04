@@ -64,41 +64,41 @@
       <h2>Selected work</h2>
       <div class="cards">
         <article class="card feature">
-          <div class="card-top"><span class="tag">Domain LLM</span><span class="meta">Mistral AI + ESA · €1M</span></div>
-          <h3>EVE: an LLM for Earth Observation</h3>
-          <p>Co-designed the distributed multi-GPU training and serving stack (PyTorch, Hugging Face, vLLM), selected the Mistral base model, and built the first hallucination-mitigation module. Drove continued pre-training on a 5B-token EO corpus across 8× A100s, plus data curation, SFT and the RAG pipeline.</p>
-          <p class="note">Paper accepted at ACL 2026.</p>
-        </article>
-
-        <article class="card">
-          <div class="card-top"><span class="tag">Open source</span><span class="meta">NGI Search / EU · €150K</span></div>
-          <h3>Trallie</h3>
-          <p>I designed and built Trallie from scratch and led the project. It's a modular, model-agnostic framework for zero- and few-shot information extraction from unstructured documents. I also coordinated the consortium through to the open-source release.</p>
-          <p class="note">Presented at OW2con'25.</p>
-        </article>
-
-        <article class="card">
-          <div class="card-top"><span class="tag">AI safety</span><span class="meta">Independent · active</span></div>
+          <div class="card-top"><div class="tags"><span class="tag">Agents</span><span class="tag">Open source</span></div><span class="meta">Independent · active</span></div>
           <h3><a href="https://github.com/vijpandaturtle/seesaw">Seesaw ↗</a></h3>
           <p>A multi-agent framework that automates the hypothesis → experiment → critique loop in mechanistic interpretability. Three agents (<em>Scout</em>, <em>Lens</em>, <em>Quill</em>) plan, run and critique experiments, with a human-in-the-loop checkpoint between each stage. Each agent also runs as a standalone MCP server.</p>
           <p class="note">LangGraph · MCP · Python</p>
         </article>
 
         <article class="card">
-          <div class="card-top"><span class="tag">Domain LLM</span><span class="meta">ESA · €400K</span></div>
+          <div class="card-top"><div class="tags"><span class="tag">LLM</span><span class="tag">Open source</span></div><span class="meta">ESA · €400K</span></div>
           <h3>SatcomLLM</h3>
           <p>Project co-lead on a domain-specific LLM for satellite communications. I co-designed the training infrastructure, chose the base model and set the technical strategy. I led engineering direction and the open-source delivery.</p>
         </article>
 
         <article class="card">
-          <div class="card-top"><span class="tag">Agents · RAG</span><span class="meta">Tipico · 2M+ LOC</span></div>
-          <h3>AI code-refactoring assistant</h3>
-          <p>I led the design and delivery of a multi-agent system for Tipico that extends Amazon Q. It uses custom RAG over the codebase, orchestrates agents to get around context-window limits, and comes with its own evaluation benchmark.</p>
-          <p class="note">50% faster refactoring · 27% more cost-efficient · 12% better code quality. Evaluation paper accepted at EMNLP 2026.</p>
+          <div class="card-top"><div class="tags"><span class="tag">LLM</span></div><span class="meta">Mistral AI + ESA · €1M</span></div>
+          <h3>EVE: an LLM for Earth Observation</h3>
+          <p>Co-designed the distributed multi-GPU training and serving stack (PyTorch, Hugging Face, vLLM), selected the Mistral base model, and built the first hallucination-mitigation module. Drove continued pre-training on a 5B-token EO corpus across 8× A100s, plus data curation, SFT and the RAG pipeline.</p>
+          <p class="note">Paper accepted at ACL 2026.</p>
         </article>
 
         <article class="card">
-          <div class="card-top"><span class="tag">Dataset</span><span class="meta">Hugging Face · arXiv</span></div>
+          <div class="card-top"><div class="tags"><span class="tag">Agents</span><span class="tag">Open source</span></div><span class="meta">EMNLP 2026</span></div>
+          <h3><a href="https://arxiv.org/abs/2609.04898">RefactorPlatform ↗</a></h3>
+          <p>An open-source harness for evaluating coding agents on repository-scale refactoring. The environment stays fixed while each design choice is varied explicitly: the model, the execution regime (baseline, RAG or multi-agent) and how specific the prompt is. Every run is isolated and logged, and changes are verified against the code's AST.</p>
+          <p class="note">Paper accepted at EMNLP 2026.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><div class="tags"><span class="tag">LLM</span><span class="tag">Open source</span></div><span class="meta">NGI Search / EU · €150K</span></div>
+          <h3>Trallie</h3>
+          <p>I designed and built Trallie from scratch and led the project. It's a modular, model-agnostic framework for zero- and few-shot information extraction from unstructured documents. I also coordinated the consortium through to the open-source release.</p>
+          <p class="note">Presented at OW2con'25.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><div class="tags"><span class="tag">Open source</span></div><span class="meta">Independent</span></div>
           <h3><a href="https://github.com/vijpandaturtle/roadscapes">Roadscapes ↗</a></h3>
           <p>An open multi-task, multimodal dataset of 9,000+ annotated images of Indian road scenes, day and night, with QA pairs for grounding, reasoning and scene understanding. <a href="https://github.com/vijpandaturtle/roadscapes-video-rag">Roadscapes-Video-RAG</a> adds a <a href="https://huggingface.co/datasets/vijpandaturtle/roadscapes-video">dashcam video set</a> and a reference multimodal RAG pipeline (CLIP + LanceDB + a VLM) that gives driving advice.</p>
           <p class="note">23,000+ and 1,300+ downloads in the first month.</p>
