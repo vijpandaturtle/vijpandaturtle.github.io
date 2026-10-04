@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceaff">
+  <title>Vijayasri Iyer — Senior Deep Learning Scientist</title>
+  <meta name="description" content="Vijayasri Iyer is a Senior Deep Learning Scientist at Pi School building domain LLMs (EVE with Mistral AI & ESA), open-source information extraction (Trallie), and agentic tooling for AI safety research (Seesaw).">
+  <meta property="og:title" content="Vijayasri Iyer — Senior Deep Learning Scientist">
+  <meta property="og:description" content="Domain LLMs, open-source ML systems, and agentic tools for AI safety research.">
+  <meta property="og:url" content="https://vijpandaturtle.github.io/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">Vijayasri Iyer<span>.</span></a>
+      <nav>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#research">Research</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero wrap">
+      <div class="hero-grid">
+      <div class="hero-text">
+      <h1>Hi, I'm Vijayasri</h1>
+      <p class="lede">
+        I build and ship LLM systems end to end: data, training, serving and evaluation.
+        I was a key technical contributor on <strong>EVE</strong>, a domain LLM for Earth Observation built with
+        <strong>Mistral AI</strong> and the <strong>European Space Agency</strong>, and I led <strong>Trallie</strong>,
+        an open-source framework for information extraction. Outside work I'm building <strong>Seesaw</strong>,
+        a multi-agent framework for automated mechanistic interpretability research.
+      </p>
+      <div class="links">
+        <a class="btn primary" href="mailto:thisisvij98@gmail.com">Get in touch</a>
+        <a class="btn" href="https://github.com/vijpandaturtle">GitHub</a>
+        <a class="btn" href="https://linkedin.com/in/vijayasriiyer">LinkedIn</a>
+        <a class="btn" href="https://mindsandai.substack.com">Blog</a>
+      </div>
+      </div>
+      <img class="portrait" src="profile.jpg" alt="Vijayasri Iyer" width="800" height="800">
+      </div>
+      <dl class="stats">
+        <div><dt>5+ yrs</dt><dd>building ML &amp; LLM systems</dd></div>
+        <div><dt>€1.55M+</dt><dd>in research grants co-authored</dd></div>
+        <div><dt>ACL · EMNLP</dt><dd>2026 papers accepted</dd></div>
+        <div><dt>23k+</dt><dd>dataset downloads in month one</dd></div>
+      </dl>
+    </section>
+
+    <!-- Selected work -->
+    <section id="work" class="wrap section">
+      <h2>Selected work</h2>
+      <div class="cards">
+        <article class="card feature">
+          <div class="card-top"><span class="tag">Domain LLM</span><span class="meta">Mistral AI + ESA · €1M</span></div>
+          <h3>EVE: an LLM for Earth Observation</h3>
+          <p>Co-designed the distributed multi-GPU training and serving stack (PyTorch, Hugging Face, vLLM), selected the Mistral base model, and built the first hallucination-mitigation module. Drove continued pre-training on a 5B-token EO corpus across 8× A100s, plus data curation, SFT and the RAG pipeline.</p>
+          <p class="note">Paper accepted at ACL 2026.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="tag">Open source</span><span class="meta">NGI Search / EU · €150K</span></div>
+          <h3>Trallie</h3>
+          <p>I designed and built Trallie from scratch and led the project. It's a modular, model-agnostic framework for zero- and few-shot information extraction from unstructured documents. I also coordinated the consortium through to the open-source release.</p>
+          <p class="note">Presented at OW2con'25.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="tag">AI safety</span><span class="meta">Independent · active</span></div>
+          <h3><a href="https://github.com/vijpandaturtle/seesaw">Seesaw ↗</a></h3>
+          <p>A multi-agent framework that automates the hypothesis → experiment → critique loop in mechanistic interpretability. Three agents (<em>Scout</em>, <em>Lens</em>, <em>Quill</em>) plan, run and critique experiments, with a human-in-the-loop checkpoint between each stage. Each agent also runs as a standalone MCP server.</p>
+          <p class="note">LangGraph · MCP · Python</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="tag">Domain LLM</span><span class="meta">ESA · €400K</span></div>
+          <h3>SatcomLLM</h3>
+          <p>Project co-lead on a domain-specific LLM for satellite communications. I co-designed the training infrastructure, chose the base model and set the technical strategy. I led engineering direction and the open-source delivery.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="tag">Agents · RAG</span><span class="meta">Tipico · 2M+ LOC</span></div>
+          <h3>AI code-refactoring assistant</h3>
+          <p>I led the design and delivery of a multi-agent system for Tipico that extends Amazon Q. It uses custom RAG over the codebase, orchestrates agents to get around context-window limits, and comes with its own evaluation benchmark.</p>
+          <p class="note">50% faster refactoring · 27% more cost-efficient · 12% better code quality. Evaluation paper accepted at EMNLP 2026.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="tag">Dataset</span><span class="meta">Hugging Face · arXiv</span></div>
+          <h3><a href="https://github.com/vijpandaturtle/roadscapes">Roadscapes ↗</a></h3>
+          <p>An open multi-task, multimodal dataset of 9,000+ annotated images of Indian road scenes, day and night, with QA pairs for grounding, reasoning and scene understanding. <a href="https://github.com/vijpandaturtle/roadscapes-video-rag">Roadscapes-Video-RAG</a> adds a <a href="https://huggingface.co/datasets/vijpandaturtle/roadscapes-video">dashcam video set</a> and a reference multimodal RAG pipeline (CLIP + LanceDB + a VLM) that gives driving advice.</p>
+          <p class="note">23,000+ and 1,300+ downloads in the first month.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="wrap section">
+      <h2>Experience</h2>
+      <ol class="timeline">
+        <li>
+          <div class="when">Dec 2022 — now</div>
+          <div class="what">
+            <h3>Senior Deep Learning Scientist <span class="at">@ Pi School, Italy</span></h3>
+            <p class="sub">Senior since Jan 2026; previously Deep Learning Scientist</p>
+            <ul>
+              <li>Key technical contributor on EVE (Mistral AI + ESA) and co-lead of SatcomLLM (ESA). Previously led Trallie (EU Commission).</li>
+              <li>Technical Lead of the Pi School of AI programme. I've mentored 10+ teams (40+ engineers) through 8-week prototyping cycles, shipping LLM and computer vision solutions to enterprise and government partners.</li>
+              <li>Co-authored grant proposals worth more than €1.55M: EVE, SatcomLLM and Videoloc.</li>
+              <li>Spoke at OW2con'25, AI Dev Europe '25 and the Living Planet Symposium '25.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">Jan 2020 — now</div>
+          <div class="what">
+            <h3>Independent ML Engineer &amp; Researcher</h3>
+            <p class="sub">Self-directed, India</p>
+            <ul>
+              <li>Author of the Roadscapes and Roadscapes-Video-RAG datasets.</li>
+              <li>Building Seesaw, an agentic library for AI safety research.</li>
+              <li>Researching <a href="https://github.com/vijpandaturtle/multimodal-ai-safety">multimodal interpretability and safety</a>, working up from CLIP to LLaVA to Qwen-VL to VLM-based driving models.</li>
+              <li>Reproduced and optimized HydraNet and neural optimization techniques as real-time multi-task perception models in PyTorch.</li>
+              <li>Built an LSTM model that detects stress from EEG data (OpenBCI, 85% accuracy) and deployed it on AWS SageMaker.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">Dec 2017 — Apr 2021</div>
+          <div class="what">
+            <h3>Junior Research Fellow / SWE &amp; Undergraduate Researcher <span class="at">@ Amrita Vishwa Vidyapeetham</span></h3>
+            <ul>
+              <li>Built a web-based threat detection system for mobile devices for an Indian Government client: a Django backend plus malware classifiers with 93% accuracy.</li>
+              <li>Co-authored 2 peer-reviewed publications. Presented at IEEE-IV BROAD '20 and WiML @ ICML '20.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Research -->
+    <section id="research" class="wrap section">
+      <h2>Research &amp; talks</h2>
+      <div class="two-col">
+        <div>
+          <h4>Recent publications</h4>
+          <ul class="pubs">
+            <li><span class="venue">EMNLP 2026</span> <a href="https://arxiv.org/abs/2609.04898">RefactorPlatform: An Open-Source Harness for Controlled Evaluation of Repository-Scale Refactoring Agents</a><span class="authors">A. B. Amor, D. Mali, M. Acharya, <b>V. Iyer</b>, S. Bratières</span></li>
+            <li><span class="venue">arXiv 2026</span> <a href="https://arxiv.org/abs/2608.02178">Microscopic Dynamics of Consensus Formation in Multi-Agent LLM Naming Games</a><span class="authors">C. De Nobili, <b>V. Iyer</b>, A. Codello, R. Burioni</span></li>
+            <li><span class="venue">ACL 2026</span> <a href="https://aclanthology.org/2026.acl-industry.72/">EVE: A Domain-Specific LLM Framework for Earth Intelligence</a><span class="authors">À. R. Atrio, A. Lopez, J. Rohit, Y. El Ouahidi, M. Politi, <b>V. Iyer</b>, U. Jamil, et al.</span></li>
+            <li><span class="venue">arXiv 2026</span> <a href="https://arxiv.org/abs/2602.12877">RoadscapesQA: A Multitask, Multimodal Dataset for Visual Question Answering on Indian Roads</a><span class="authors"><b>V. Iyer</b>, M. Rathinagiriswaran, J. S.</span></li>
+          </ul>
+          <p class="more"><a href="https://scholar.google.com/citations?user=K_ST0dMAAAAJ&amp;hl=en">All publications on Google Scholar →</a></p>
+        </div>
+        <div>
+          <h4>Talks</h4>
+          <ul class="pubs">
+            <li><span class="venue">2025</span> OW2con'25: Trallie</li>
+            <li><span class="venue">2025</span> AI Dev Europe '25</li>
+            <li><span class="venue">2025</span> ESA Living Planet Symposium '25</li>
+            <li><span class="venue">2020</span> WiML @ ICML '20</li>
+            <li><span class="venue">2020</span> IEEE-IV BROAD '20</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills & education -->
+    <section class="wrap section">
+      <h2>Toolkit &amp; education</h2>
+      <div class="two-col">
+        <div>
+          <h4>LLMs</h4>
+          <p class="chips"><span>PyTorch</span><span>Transformers</span><span>PEFT</span><span>Axolotl</span><span>Unsloth</span><span>vLLM</span><span>SFT</span><span>RAG</span><span>LLM evaluation</span><span>LangChain</span><span>LlamaIndex</span><span>LangGraph</span><span>MCP</span></p>
+          <h4>Deep learning</h4>
+          <p class="chips"><span>PyTorch Lightning</span><span>OpenCV</span><span>TensorFlow</span><span>ONNX</span><span>scikit-learn</span></p>
+          <h4>Infrastructure</h4>
+          <p class="chips"><span>AWS</span><span>GCP</span><span>Docker</span><span>Kubernetes</span><span>Slurm</span><span>Multi-GPU training</span><span>FastAPI</span></p>
+        </div>
+        <div>
+          <h4>Education</h4>
+          <ul class="edu">
+            <li><strong>M.Tech, Artificial Intelligence</strong> — Amrita Vishwa Vidyapeetham, 2021–23<br><span class="muted">Top of class (CGPA 8.63/10) · Best Project Award · one of 250 students selected nationally for Google Research Week 2023</span></li>
+            <li><strong>B.E., Information Technology</strong> — Vidyalankar Institute of Technology, 2016–20</li>
+            <li><strong>Certifications</strong><br><span class="muted">AI Safety Fundamentals (Technical Alignment) · Graduate Certificate in Tech &amp; Public Policy · IIT Madras ACSE · Udacity Robotics Software Engineer · HBS Online CORe</span></li>
+            <li><strong>Honours</strong><br><span class="muted">Facebook/Udacity Secure &amp; Private AI Scholar · Intel AI for Edge Scholar</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="wrap section contact">
+      <h2>Say hello</h2>
+      <p class="lede">I'm open to conversations about domain LLMs, evaluation, interpretability and AI safety, as well as collaborations and speaking.</p>
+      <p><a class="big-link" href="mailto:thisisvij98@gmail.com">thisisvij98@gmail.com</a></p>
+      <div class="links">
+        <a href="https://github.com/vijpandaturtle">GitHub</a>
+        <a href="https://linkedin.com/in/vijayasriiyer">LinkedIn</a>
+        <a href="https://x.com/thisisvij98">X / Twitter</a>
+        <a href="https://scholar.google.com/citations?user=K_ST0dMAAAAJ&amp;hl=en">Google Scholar</a>
+        <a href="https://huggingface.co/datasets/vijpandaturtle/roadscapes">Hugging Face</a>
+        <a href="https://mindsandai.substack.com">Substack</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <span>© <span id="yr">2026</span> Vijayasri Iyer</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
