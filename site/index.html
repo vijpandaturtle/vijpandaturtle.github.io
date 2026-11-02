@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#dceaff">
   <title>Vijayasri Iyer</title>
-  <meta name="description" content="Vijayasri Iyer builds domain LLMs (EVE with Mistral AI & ESA), open-source information extraction (Trallie), and agentic tooling for AI safety research (Seesaw).">
+  <meta name="description" content="Vijayasri Iyer builds domain LLMs (EVE with Mistral AI & ESA), open-source information extraction (Trallie), and tools for AI safety and interpretability research (Seesaw, Lever).">
   <meta property="og:title" content="Vijayasri Iyer">
   <meta property="og:description" content="Domain LLMs, open-source ML systems, and agentic tools for AI safety research.">
   <meta property="og:url" content="https://vijpandaturtle.github.io/">
@@ -40,7 +40,8 @@
         I was a key technical contributor on <strong>EVE</strong>, a domain LLM for Earth Observation built with
         <strong>Mistral AI</strong> and the <strong>European Space Agency</strong>, and I led <strong>Trallie</strong>,
         an open-source framework for information extraction. Outside work I'm building <strong>Seesaw</strong>,
-        a multi-agent framework for automated mechanistic interpretability research.
+        a multi-agent framework for automated mechanistic interpretability research, and <strong>Lever</strong>,
+        a toolkit for interpreting vision-language models.
       </p>
       <div class="links">
         <a class="btn primary" href="mailto:thisisvij98@gmail.com">Get in touch</a>
@@ -103,6 +104,13 @@
           <p>An open multi-task, multimodal dataset of 9,000+ annotated images of Indian road scenes, day and night, with QA pairs for grounding, reasoning and scene understanding. <a href="https://github.com/vijpandaturtle/roadscapes-video-rag">Roadscapes-Video-RAG</a> adds a <a href="https://huggingface.co/datasets/vijpandaturtle/roadscapes-video">dashcam video set</a> and a reference multimodal RAG pipeline (CLIP + LanceDB + a VLM) that gives driving advice.</p>
           <p class="note">23,000+ and 1,300+ downloads in the first month.</p>
         </article>
+
+        <article class="card">
+          <div class="card-top"><div class="tags"><span class="tag">Multimodal</span><span class="tag">AI safety</span><span class="tag">Open source</span></div><span class="meta">Independent · active</span></div>
+          <h3><a href="https://vijpandaturtle.github.io/lever-interp/">Lever ↗</a></h3>
+          <p>A library and research log for the mechanistic interpretability of vision-language models. It works in stages, from CLIP to LLaVA to Qwen-VL and then to VLM-based driving models, where mistakes are safety-critical. It includes residual and logit lenses, per-head and per-MLP attribution, activation patching, and model diffing between CLIP and SigLIP.</p>
+          <p class="note">Studies so far cover typographic attacks and where image tokens become words.</p>
+        </article>
       </div>
     </section>
 
@@ -131,7 +139,7 @@
             <ul>
               <li>Author of the Roadscapes and Roadscapes-Video-RAG datasets.</li>
               <li>Building Seesaw, an agentic library for AI safety research.</li>
-              <li>Researching <a href="https://github.com/vijpandaturtle/multimodal-ai-safety">multimodal interpretability and safety</a>, working up from CLIP to LLaVA to Qwen-VL to VLM-based driving models.</li>
+              <li>Building <a href="https://vijpandaturtle.github.io/lever-interp/">Lever</a> for multimodal interpretability and safety research, working up from CLIP to LLaVA to Qwen-VL to VLM-based driving models.</li>
               <li>Reproduced and optimized HydraNet and neural optimization techniques as real-time multi-task perception models in PyTorch.</li>
               <li>Built an LSTM model that detects stress from EEG data (OpenBCI, 85% accuracy) and deployed it on AWS SageMaker.</li>
             </ul>
