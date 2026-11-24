@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceaff">
+  <title>Building Seesaw: Agentic AI to do AI Safety Research, Part 1 · Vijayasri Iyer</title>
+  <meta name="description" content="A series on building a production grade research assistant for AI Safety research">
+  <meta property="og:title" content="Building Seesaw: Agentic AI to do AI Safety Research, Part 1 · Vijayasri Iyer">
+  <meta property="og:description" content="A series on building a production grade research assistant for AI Safety research">
+  <meta property="og:url" content="https://vijpandaturtle.github.io/blog/building-seesaw-part-1/">
+  <link rel="canonical" href="https://vijpandaturtle.github.io/blog/building-seesaw-part-1/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">Vijayasri Iyer<span>.</span></a>
+      <nav>
+        <a class="m" href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#research">Research</a>
+        <a class="m" href="/blog/">Writing</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap post">
+    <article>
+      <header class="post-head">
+        <p class="post-back"><a href="/blog/">← All writing</a></p>
+        <p class="post-series">Part 1 of <a href="/blog/#building-seesaw">Building Seesaw: Agentic AI for AI Safety Research</a></p>
+        <h1>Building Seesaw: Agentic AI to do AI Safety Research, Part 1</h1>
+        <p class="post-sub">A series on building a production grade research assistant for AI Safety research</p>
+        <p class="post-meta">May 23, 2026 · 5 min read</p>
+      </header>
+      <div class="prose">
+<p>“Combine what you love with what you do” this is my motto for several things in life. For the past several months I’ve been learning about Agentic AI, and honestly, somewhere along the way I went from just learning it to genuinely loving it. So for my capstone, I wanted to bring that together with the other thing I care about: AI safety, and specifically mechanistic interpretability. Seesaw is a project that came out of this : a set of research agents built to assist with the slow, painstaking work of understanding what’s actually going on inside neural networks. </p><h2><strong>What is Seesaw?</strong></h2><p><a href="https://github.com/vijpandaturtle/seesaw" rel="noopener" target="_blank">Seesaw</a> is a personal research project - a multi-agent system designed to assist with AI research. The v0 is raw and I will write these posts as logs for improvements in the code, design and my personal learnings. It’s an experiment in whether AI can meaningfully accelerate the <em>scientific</em> part of safety research as well as the writing or the code. So let’s begin! </p><p>Good research, in any field, cycles through three things:</p><ol><li><p><strong>Asking the right questions</strong>: figuring out what to investigate and how to approach it</p></li><li><p><strong>Running the experiments</strong>: actually implementing and executing the investigation</p></li><li><p><strong>Reviewing the results</strong>: interpreting findings and deciding what to do next</p></li></ol><p>Let’s take mechanistic interpretability as an example that I will be exploring for the next several weeks: the bottleneck in mechanistic interpretability isn’t the experiments themselves but the cognitive overhead of the loop and the scale of experimentation: surveying the literature, designing the experiment, then making sense of what the numbers mean. Each step requires context from the last, and the cycle repeats dozens of times before anything interesting emerges. Seesaw is an attempt to build agents for each of these three stages.</p><h2><strong>The Architecture: Scout → Lens → Quill</strong></h2><p>The first version of the Seesaw architecture is built as 3 specialized agents, each responsible for one phase of the research loop, connected by an orchestrator that keeps a human in the conversation.</p><figure><img alt="Generated Image May 23, 2026 - 10:40PM.jpg" height="768" loading="lazy" src="dcc172fed401.jpg" width="1408"/><figcaption>Seesaw-v0 Architecture</figcaption></figure><h3><strong>Scout — the Research Planner</strong></h3><p>Scout is a ReAct agent specialized in mechanistic interpretability. You hand it a research question - something like <em>“How does GPT-2 Small implement indirect object identification?”</em> - and it does the literature work.</p><p>It decomposes the question into sub-topics, runs targeted arXiv searches, combs through blog posts and GitHub repos, scrapes the most relevant papers, and synthesizes everything into a structured <strong>Research Plan</strong> - complete with hypotheses, proposed experiments, target models, and expected findings. Crucially, it outputs the experiments in a format that the next agent can directly execute.</p><h3><strong>Lens — the Experiment Runner</strong></h3><p>Lens takes the Research Plan from Scout and runs the experiments (a workflow). It has access to a set of TransformerLens-based tools:</p><ul><li><p><strong>Logit lens</strong>: how do predictions evolve across layers?</p></li><li><p><strong>Attention pattern analysis</strong>: which tokens attend to which?</p></li><li><p><strong>Ablation</strong>: what happens when you silence specific heads or MLPs?</p></li><li><p><strong>Activation patching</strong>: which components are causally responsible for a behavior?</p></li><li><p><strong>Direct logit attribution</strong>: how does each layer contribute to the final output?</p></li></ul><p>Lens is where the execution of experiments happen. The goal is that Scout produces a plan specific enough that Lens can execute it without ambiguity, and concrete enough that the results are interpretable.</p><h3><strong>Quill — the Reviewer</strong></h3><p>Quill is the third leg (right now also a ReAct style agent) : it takes the experimental results from Lens and synthesizes them into findings - identifying what the numbers show, where the hypotheses were confirmed or overturned, and what questions the results open up. It closes the loop by producing something a human researcher can actually read, critique, and build on.</p><h3><strong>The Orchestrator</strong></h3><p>The three agents are coordinated by an orchestrator with a human-in-the-loop layer. The loop isn’t fully automated - after Scout produces a Research Plan, a human can review and edit it before Lens runs anything. After Lens produces results, a human can redirect Quill’s synthesis. The system is designed to <em>amplify</em> the researcher, not replace them.</p><h2><strong>The First Experiment: IOI</strong></h2><p>For Seesaw-v0, I started with a classic: the <strong>Indirect Object Identification</strong> (IOI) task in GPT-2 Small.</p><p>Given a sentence like <em>“When Mary and John went to the store, John gave a drink to ___”</em>, the model should predict <em>Mary</em>. Wang et al. (2022) mapped out the circuit responsible for this — a specific set of ~26 attention heads with distinct functional roles. It’s the canonical mechanistic interpretability result, which makes it the perfect first test: there’s a known ground truth to validate against.</p><p>The goal is to replicate the results of this paper as a means to validate that the Seesaw pipeline Scout producing a correct research plan, Lens running the right experiments, Quill making sense of the results - produces something coherent. If Scout surfaces the IOI paper, and Lens reproduces the key attention patterns, and Quill correctly identifies name-mover heads, the plumbing works.</p><h2><strong>What I’m Watching For</strong></h2><p>This is an incremental log. Here’s what I want to understand as I run it:</p><p><strong>On the research quality side:</strong> Does Scout surface papers that a human researcher would actually reach for? Does it miss things? Does Lens produce results that are numerically plausible? Does Quill misinterpret the outputs in ways that would mislead someone who didn’t check the raw data? How can augment Scout and Lens from validating existing results to doing original research?</p><p><strong>On the agentic AI side:</strong> Where does the pipeline break? Where does it require more human intervention than expected? What does the HITL layer actually need to catch?</p><p><strong>On the meta-question:</strong> Can agentic AI make a meaningful contribution to AI safety research, or does it introduce failure modes that make the research <em>less</em> trustworthy? I don’t have an answer yet. I want to find out.</p><h2><strong>Next Steps</strong></h2><ol><li><p>Test and validate the agentic pipeline with the IOI paper and other papers</p></li><li><p>Revisit each of the design of each agent in isolation </p></li><li><p>Set up Human-in-the-loop checkpoints </p></li></ol><h2><strong>Why This Matters to Me</strong></h2><p>Mechanistic interpretability is slow. It’s slow because understanding a neural network from the inside requires running many targeted experiments, synthesizing noisy results, and iterating usually across months of focused work by domain experts. The field is growing, but the number of researchers who can do this work is still small relative to the number of models being deployed.</p><p>If agentic pipelines can handle the scaffolding the literature review, the experiment setup, the result summarization and do it <em>reliably</em>, that changes the throughput of the field. Not by replacing the scientific judgment, but by reducing the friction around it.</p><p>Seesaw is my attempt to find out whether that’s actually true, or whether it’s wishful thinking. I’ll keep updating this log as the experiments run. In the next post, I will get into the details of every agents its resources/function and the design. Since it is a live log, I will explicitly state when the design/architecture of an agent is changed. Stay tuned! </p>
+      </div>
+      <p class="post-origin">Originally published on <a href="https://mindsandai.substack.com/p/building-seesaw-agentic-ai-to-do">Mind &amp; AI on Substack</a>.</p>
+      <nav class="post-nav"><span></span><a class="next" href="/blog/building-seesaw-part-2/"><span>Next →</span>Building Seesaw: Agentic AI to do AI Safety Research, Part 2</a></nav>
+    </article>
+  </main>
+
+  <footer class="wrap footer">
+    <span>© Vijayasri Iyer</span>
+    <a href="https://mindsandai.substack.com">Subscribe on Substack ↗</a>
+  </footer>
+</body>
+</html>

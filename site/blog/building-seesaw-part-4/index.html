@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceaff">
+  <title>Building Seesaw: Agentic AI to do AI Safety Research, Part 4. · Vijayasri Iyer</title>
+  <meta name="description" content="A deep-dive into the technical design of Lens the execution agent">
+  <meta property="og:title" content="Building Seesaw: Agentic AI to do AI Safety Research, Part 4. · Vijayasri Iyer">
+  <meta property="og:description" content="A deep-dive into the technical design of Lens the execution agent">
+  <meta property="og:url" content="https://vijpandaturtle.github.io/blog/building-seesaw-part-4/">
+  <link rel="canonical" href="https://vijpandaturtle.github.io/blog/building-seesaw-part-4/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">Vijayasri Iyer<span>.</span></a>
+      <nav>
+        <a class="m" href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#research">Research</a>
+        <a class="m" href="/blog/">Writing</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap post">
+    <article>
+      <header class="post-head">
+        <p class="post-back"><a href="/blog/">← All writing</a></p>
+        <p class="post-series">Part 4 of <a href="/blog/#building-seesaw">Building Seesaw: Agentic AI for AI Safety Research</a></p>
+        <h1>Building Seesaw: Agentic AI to do AI Safety Research, Part 4.</h1>
+        <p class="post-sub">A deep-dive into the technical design of Lens the execution agent</p>
+        <p class="post-meta">Jun 29, 2026 · 6 min read</p>
+      </header>
+      <div class="prose">
+<p>If you’re new to this series, welcome! </p><p>In the <a href="/blog/building-seesaw-part-1/">last post</a>, I introduced Seesaw, which is a multi-agent system for mechanistic interpretability research and its core architecture powered by 3 unique agents: Scout, Lens, and Quill. Scout plans the research. Lens runs it. Quill reviews and critiques it. This post is about Lens in depth. I am covering Lens first since it is the most interesting part of the system and the one primarily responsible for the execution of the safety research experiments. </p><h2>What Lens Has to Do</h2><p>Lens receives a Research Plan from Scout in the form of a structured markdown document containing a list of experiments, each specifying a tool, a model, prompts, and a hypothesis. Lens has to:</p><ol><li><p>Parse that plan into runnable experiment specs</p></li><li><p>Load the right model (without reloading it on every experiment)</p></li><li><p>Execute each experiment, catching failures gracefully</p></li><li><p>Interpret the results in context of the research question</p></li><li><p>Decide if the result warrants an immediate follow-up</p></li><li><p>Bundle everything for Quill</p></li></ol><p>That’s five distinct concerns, and mixing them in a single script would be a mess. So Lens is a <strong>LangGraph state machine </strong>each concern becomes a node, and the graph controls the flow.</p><h2>The Graph</h2><figure><img alt="Sketch of Lens as a workflow. Src: Generated using NanoBanana" height="768" loading="lazy" src="086bd3d51186.jpg" width="1408"/><figcaption>Sketch of Lens as a workflow. Src: Generated using NanoBanana</figcaption></figure><p>The workflow contains six nodes in total. The loop between <code>check_followup</code> and <code>run_experiment</code> is where the system can dynamically extend the experiment queue. Let’s walk through each node: </p><h3>Node 1: <code>parse_plan</code>: Translating Intent into Specs</h3><p>Scout writes its Research Plan in structured markdown, so Lens’ first job is to translate the markdown into an experimental plan. <code>parse_plan</code> sends the whole Research Plan to Claude with a structured output schema and asks it to extract every experiment into a typed <code>ExperimentSpec, </code>which is as follows:</p><pre><code class="language-python">@dataclass
+class ExperimentSpec:
+    name: str
+    tool: str
+    model_name: str
+    prompts: list[str]
+    what_to_measure: str
+    hypothesis_tested: str
+    expected_outcome: str
+    tool_kwargs: dict   # e.g. io_tokens, subject_tokens for IOI
+</code></pre><p>This is a clean boundary: everything before this node is unstructured text, everything after is typed data. If Scout was vague about prompts, Claude generates appropriate ones. If an experiment specifies a tool that doesn’t exist in the registry, it gets filtered out here rather than exploding later.</p><h3>Node 2: <code>load_model</code>: The Cache Layer</h3><p>Transformer models are not cheap to load. While initial experiments are done with GPT-2 Small larger models of real consequence would take much longer. Running five experiments and reloading the weights five times would be wasteful and painful to debug. <code>model_session.py</code> keeps a simple in-process cache:</p><pre><code class="language-python">_MODEL_CACHE: dict[str, HookedTransformer] = {}
+
+def get_model(model_name: str) -&gt; HookedTransformer:
+    if model_name not in _MODEL_CACHE:
+        model = HookedTransformer.from_pretrained(
+            model_name,
+            center_writing_weights=True,
+            center_unembed=True,
+            fold_ln=True,
+            refactor_factored_attn_matrices=True,
+        )
+        model.eval()
+        _MODEL_CACHE[model_name] = model
+    return _MODEL_CACHE[model_name]
+</code></pre><p>One subtle thing worth noting: <code>use_attn_result</code> is intentionally absent. The flag conflicts with <code>refactor_factored_attn_matrices</code>, so tools that need per-head output compute it manually via <code>cache["z", layer] @ model.W_O[layer]</code>. </p><h3>Node 3: <code>run_experiment</code>: The Sandbox</h3><p>This is where TransformerLens actually runs. <code>run_experiment</code> pops the first spec off the queue, looks up the tool function in a registry, and calls it. But there’s a wrapper around every tool call i.e the sandbox. This version has a super simple “sandbox” which is, in all honestly not a sandbox at all but just an isolated thread. This is likely to become a lot more sophisticated with the models and experiments improving. </p><pre><code class="language-python">def run_in_sandbox(tool_fn, tool_kwargs, experiment_name, timeout) -&gt; ExperimentResult:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(tool_fn, **tool_kwargs)
+        try:
+            return future.result(timeout=timeout)
+        except concurrent.futures.TimeoutError:
+            return ExperimentResult(..., status="timeout")
+        except Exception as e:
+            return ExperimentResult(..., status="failed", error=str(e))
+</code></pre><p>Every experiment runs in an isolated thread with a hard timeout. If an experiment crashes due to bad prompts, OOM, a numerical edge case in a hook; the workflow keeps running. The failed result gets logged and bundled; Quill sees it and can comment on it. The system doesn’t stop. This is quite beneficial especially in early testing, where several “mutually exclusive” experiments would fail for some reason. Without the sandbox, a single bad experiment would kill the entire run.</p><h3>Node 4: <code>interpret_result</code>: Reading the Numbers</h3><p>Raw experiment output is data: a tensor of logit differences, a heatmap matrix, a list of top heads. This needs to be translated into natural language so the result is supplemented with interpretations in natural language. </p><p>After each experiment, <code>interpret_result</code> sends the raw data (truncated to 2,000 characters) back to Claude with a specific prompt:</p><blockquote><p><em>Interpret this experiment result in 2-3 paragraphs:</em> <em>1. What do the results reveal about the model’s internal mechanisms?</em> <em>2. What is the most important finding?</em> <em>3. How does this connect to the research question?</em></p></blockquote><p>The result gets a <code>summary</code> field populated with Claude’s interpretation. This becomes the input to the next node.</p><h3>Node 5: <code>check_followup</code>: Adaptive Experiments</h3><p>This is the most interesting node. After interpreting a result, Lens asks: <em>does this finding warrant an immediate follow-up?</em></p><p>Claude responds with a structured <code>FollowUpDecision</code>:</p><pre><code class="language-python">class FollowUpDecision(BaseModel):
+    needs_followup: bool
+    reason: str
+    followup_tool: str | None
+    followup_prompts: list[str]
+    followup_description: str | None
+    followup_kwargs: dict
+</code></pre><p>If <code>needs_followup</code> is true, a new experiment spec gets prepended to the front of the queue before the remaining planned experiments. The system is told to be conservative: only add a follow-up if the result reveals something that a <em>different</em>tool can directly test, and only up to <code>MAX_FOLLOWUPS</code> times total.</p><p>This is the mechanism that makes Lens adaptive rather than just a dumb executor. If an experiments reveals that a feature/neuron is unusually important, Lens can immediately queue an attention pattern analysis on that specific head rather than waiting until after all other experiments complete. In practice, it fires maybe 20-30% of the time. When it does, it tends to be genuinely useful.</p><h3>Node 6: <code>collect_results</code>: Bundling for Quill</h3><p>The final node assembles all results into an <code>ExperimentBundle</code>:</p><pre><code class="language-python">@dataclass
+class ExperimentBundle:
+    research_question: str
+    model_name: str
+    results: list[ExperimentResult]
+
+    @property
+    def successful(self) -&gt; list[ExperimentResult]:
+        return [r for r in self.results if r.status == "success"]
+
+    @property
+    def failed(self) -&gt; list[ExperimentResult]:
+        return [r for r in self.results if r.status != "success"]
+</code></pre><p>The bundle serializes to JSON and gets passed to Quill. The <code>successful</code> and <code>failed</code> properties let Quill give an honest accounting of what worked and what didn’t.</p><h2>The Five Tools</h2><p>Lens has five TransformerLens-based tools, each answering a different question about a model’s internals:</p><ul><li><p><code>logit_lens: </code>Where across layers does the model “commit” to the answer</p></li><li><p><code>attention_pattern: </code>Which tokens are each head attending to?</p></li><li><p><code>ablation: </code>Which heads are causally necessary for the behaviour</p></li><li><p><code>activation_patching: </code>Which layer × position carries the critical information?</p></li><li><p><code>direct_logit_attribution: </code>How much does each component contribute to the final logit?</p></li></ul><p>For more details on each of these tools and what they do, refer <a href="https://learnmechinterp.com" rel="noopener" target="_blank">to this excellent source on mechanistic interpretability techniques</a>. </p><h2>Output </h2><p>Each <code>ExperimentResult</code> carries three things that matter for Quill:</p><ul><li><p><code>summary</code>: Claude’s natural language interpretation</p></li><li><p><code>plot_paths</code>: paths to saved matplotlib heatmaps</p></li><li><p><code>data</code>: the raw numbers (logit diffs, top heads, recovery scores)</p></li></ul><p>Quill reads this summary The raw data is the ground truth.</p><h2>Next Steps</h2><p>Lens v0 has the five core diagnostic tools working: logit lens, attention patterns, activation patching, ablation, and direct logit attribution. The next version will add the interventional tools: activation steering and SAE feature steering. The distinction matters because diagnostic tools tell you what a circuit does, but steering lets you verify it causally and start editing model behaviour rather than just observing it.</p><p>Beyond the tools, the bigger piece of work is wiring the full pipeline together. Scout, Lens, and Quill exist as individual agents but the orchestrator that chains them research question in, critique report out is what I will tackle right after this. The next post will cover that end-to-end run: what it looks like when Scout hands a research plan to Lens, Lens hands results to Quill, and a researcher only has to approve two checkpoints in between. Before that, I will have a short post on a lit survey update. Stay tuned! </p>
+      </div>
+      <p class="post-origin">Originally published on <a href="https://mindsandai.substack.com/p/building-seesaw-agentic-ai-to-do-d17">Mind &amp; AI on Substack</a>.</p>
+      <nav class="post-nav"><a href="/blog/building-seesaw-part-3/"><span>← Previous</span>Building Seesaw: Agentic AI to do AI Safety Research, Part 3</a><a class="next" href="/blog/building-seesaw-part-5/"><span>Next →</span>Building Seesaw: Agentic AI to do AI Safety Research, Part 5</a></nav>
+    </article>
+  </main>
+
+  <footer class="wrap footer">
+    <span>© Vijayasri Iyer</span>
+    <a href="https://mindsandai.substack.com">Subscribe on Substack ↗</a>
+  </footer>
+</body>
+</html>

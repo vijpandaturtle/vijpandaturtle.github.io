@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dceaff">
+  <title>Building Seesaw: Agentic AI to do AI Safety Research, Part 6 · Vijayasri Iyer</title>
+  <meta name="description" content="Troubleshooting and validation pipeline for the agentic system">
+  <meta property="og:title" content="Building Seesaw: Agentic AI to do AI Safety Research, Part 6 · Vijayasri Iyer">
+  <meta property="og:description" content="Troubleshooting and validation pipeline for the agentic system">
+  <meta property="og:url" content="https://vijpandaturtle.github.io/blog/building-seesaw-part-6/">
+  <link rel="canonical" href="https://vijpandaturtle.github.io/blog/building-seesaw-part-6/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">Vijayasri Iyer<span>.</span></a>
+      <nav>
+        <a class="m" href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#research">Research</a>
+        <a class="m" href="/blog/">Writing</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap post">
+    <article>
+      <header class="post-head">
+        <p class="post-back"><a href="/blog/">← All writing</a></p>
+        <p class="post-series">Part 6 of <a href="/blog/#building-seesaw">Building Seesaw: Agentic AI for AI Safety Research</a></p>
+        <h1>Building Seesaw: Agentic AI to do AI Safety Research, Part 6</h1>
+        <p class="post-sub">Troubleshooting and validation pipeline for the agentic system</p>
+        <p class="post-meta">Jul 25, 2026 · 6 min read</p>
+      </header>
+      <div class="prose">
+<p>If you’re new to this series, welcome!</p><p><a href="https://mindsandai.substack.com/s/build-logs" rel="noopener" target="_blank">In this series</a>, I document the building of Seesaw, which is a multi-agent system for mechanistic interpretability research and its core architecture powered by 3 unique agents: Scout, Lens, and Quill. Scout plans the research. Lens runs it. Quill reviews and critiques it. You can see the <a href="https://github.com/vijpandaturtle/seesaw" rel="noopener" target="_blank">Github repository here</a>.</p><p>As of this post, the full system is working - a version zero with a basic UI. This post is a detailed discussion of designing and setting up an agentic evaluation pipeline: one for each agent, and one for the system at large.</p><figure><img alt="Seesaw v0 Architecture" height="768" loading="lazy" src="7177a6100b5a.jpg" width="1408"/><figcaption>Revisit the architecture of Seesaw. Source: Author.</figcaption></figure><p>Agentic evaluation is a non-trivial task. LLM evaluation is already complex as you have to deal with the uncertainties of a single autoregressive model but an agentic setup/multi-agent setup adds cascading errors on top. In order to get started with evals, I highly recommend you to read <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" rel="noopener" target="_blank">this blog by Anthropic</a>. This blog will also serve as the primary resource for the rest of this blogpost. </p><h2><strong>Preliminaries </strong></h2><p>An <strong>eval</strong> is just a test for an AI system: give it an input, apply grading logic to its output, measure success. A <strong>task</strong> is a single test, defined inputs plus success criteria. One attempt at a task is a <strong>trial</strong>, and because agents are non-deterministic, one trial rarely tells you much. The complete record of a trial: outputs, tool calls, reasoning, intermediate results is the <strong>transcript</strong> (or trace), and the final state of the world after the agent finishes is the <strong>outcome</strong>.</p><figure><img alt="Components for agent evaluation. Source: Anthropic ." height="819" loading="lazy" src="4da9dc05f79b.jpg" width="1456"/><figcaption>Components for agent evaluation. Source: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" rel="noopener" target="_blank">Anthropic</a>.</figcaption></figure><p>The <strong>grader</strong> is the logic that scores a trial, and this is where the most useful distinction in the post lives. Graders come in three complementary flavors:</p><ul><li><p><strong>Code-based graders</strong>: deterministic rules: string matches, unit tests, tool-call verification. Fast, objective, reproducible but also brittle, and only usable where a right answer can be checked mechanically.</p></li><li><p><strong>Model-based graders</strong> (LLM-as-judge): a model applies a rubric or natural-language assertion. Flexible and nuanced where no single right answer exists but non-deterministic, and, as we’ll see, a judge you haven’t calibrated is just a second opinion you’ve chosen to trust blindly.</p></li><li><p><strong>Human graders</strong>: expert review. The gold standard, and far too expensive to run on everything, which is why the other two exist.</p></li></ul><p>Two more distinctions matter. First, <strong>outcome vs. process evaluation</strong>: grade what the agent <em><strong>produced</strong></em>, not the exact sequence of steps it took because rigid step-checking penalizes valid alternative approaches. Second, the pair of reliability metrics: <strong>pass@k</strong> is the probability the agent succeeds <em>at least once</em> in k attempts, while <strong>pass^k</strong> is the probability it succeeds <em>every</em> time. They answer different questions, and conflating them flatters your agent. The blog also describes an 8-step process for good eval design which I urge you to read about and we will also revisit later in the post.</p><h2><strong>Definition of Agent Evaluation Criteria</strong></h2><p>Before defining any evals, I would like to take a step back and start to define the input and output surface of every agent and the criteria that each agent needs to function successfully</p><h3><strong>Scout</strong></h3><p>It is an agent responsible for generating plans given a research question/prompt. So, after a bit of brainstorming on paper and then with Claude/Grok/GPT, this is the criteria that I came up with: </p><figure><img alt="Scout eval criteria, weighted towards LLM graders since a “good research plan” is subjective." height="439.6740740740741" loading="lazy" src="3be89c578cbe.png" width="710"/><figcaption>Scout eval criteria, weighted towards LLM graders since a “good research plan” is subjective. </figcaption></figure><p>Note that while writing the criteria, I categorise them into Code/LLM/Human grader roughly for implementation purposes. </p><h3>Lens </h3><p>Repeating the same process of Lens that I did for Scout, this is the evaluation criteria. The main difference between Scout and Lens is that since Lens is an experiment runner and interpreter, there need to be more checks for accurate execution, tool-calling etc. </p><figure><img alt="Lens eval criteria leaning more towards deterministic graders except the interpretation of results." height="816" loading="lazy" src="202939f8b206.png" width="1346"/><figcaption>Lens eval criteria leaning more towards deterministic graders except the interpretation of results. </figcaption></figure><h3>Quill </h3><p>Quill’s evaluation criteria is quite confusing of all the agents since it produces a critique.<strong> </strong>There’s no ground truth paper to check Quill’s opinions against, because Quill’s job is to have opinions about <em>Lens’s</em> output. What you’re actually testing is calibration: does Quill call a strong result strong and a weak result weak, the way a domain expert would? That’s a completely different question from “is this factually correct.” Anyway here’s a set of criteria that could be useful: </p><figure><img alt="Quill eval criteria, work in progress" height="574" loading="lazy" src="42fb3eb4db7a.png" width="1338"/><figcaption>Quill eval criteria, work in progress</figcaption></figure><h2>Structure of the eval set</h2><p>Following is the structure of the evaluation set that I’ve envisioned for version 0 of Seesaw. Regarding source data, the tasks and graders were designed around eight published mechanistic interpretability papers with known, checkable findings such as IOI, gender bias, greater-than, ROME, induction heads, successor heads, copy suppression, and the docstring circuit plus seven adversarial probes built to test judgment where no ground truth exists.</p><pre><code class="language-plaintext">eval/
+├── graders/          — the 29 grading functions, one file per agent
+│   ├── scout.py
+│   ├── lens.py
+│   ├── quill.py
+│   └── base.py        — shared types every grader returns
+├── fixtures/          — canned inputs + expected verdicts, to test the graders themselves
+│   ├── scout_fixtures.yaml
+│   ├── lens_fixtures.yaml
+│   ├── quill_fixtures.yaml
+│   └── loader.py
+├── tasks/             — the 15 YAML task specs (8 ground-truth papers + 7 adversarial probes)
+│   ├── ioi_circuit.yaml
+│   ├── gender_bias.yaml
+│   ├── scout_tool_bias_sae.yaml
+│   ├── quill_weak_bundle.yaml
+│   ├── ...
+│   └── loader.py
+├── rubrics/           — markdown rubrics the LLM judge reads for the fuzzier criteria
+│   ├── hypothesis_specificity.md
+│   ├── causal_honesty.md
+│   └── ...
+└── runner/            — actually runs a task against the live agents and dispatches the graders</code></pre><p><strong>Layer 1: graders</strong> (<code>eval/graders/</code>): This directory consists of 29 grading functions, one set per agent. Each one takes an artifact: a plan, a Lens result or a Quill critique and returns pass/fail plus a reason. </p><p><strong>Layer 2: fixtures</strong> (<code>eval/fixtures/</code>): This part is slightly different and surfaced as a part of the brainstorming. This grades the graders. Each fixture is a simple test case: feed a grader something that should obviously pass, feed it something that should obviously fail, check it lands where it should. 56 of these, one pass and one fail case per grader. 30 don’t need an API key, so I actually ran them and 30/30 came back clean. The other 26 need the LLM judge or a network call.</p><p><strong>Layer 3: tasks</strong> (<code>eval/tasks/</code>): 15 YAML files: the 8 ground-truth papers, plus 7 questions designed to break things (tool-bias traps for Scout, a strong/weak bundle pair for Quill, a causal-language trap for Lens). Each task says what “done” looks like was a plan saved, was the right tool actually called, not just a similar one. All 15 load without errors.</p><p>The runner (<code>eval/runner/</code>) is what actually runs a task against the live agents and checks it against the graders.</p><p>One honest gap: eight of the tasks need test files that don’t exist yet. The runner flags this as an error instead of pretending those tasks passed. You can view the evaluation code draft <a href="https://github.com/vijpandaturtle/seesaw/tree/main/eval" rel="noopener" target="_blank">here</a>. </p><h2><strong>Implementation and Observability </strong></h2><p>The eval set that exists currently was implemented using PyTest and Langchain for simple code graders and fixtures followed by Langsmith for observability. LangSmith traces every Scout and Quill evaluation run automatically once you’re calling <code>evaluate()</code>: full tool-call history, token counts, latency, per-evaluator scores captured without extra instrumentation. </p><h3><strong>Conclusion </strong></h3><p>One thing I realised during this exercise of eval design is that is incredibly hard! Part of why it’s hard is that “evaluate an agent” isn’t one problem, it’s three different problems wearing the same name: checking a number against a paper, judging whether a hypothesis is any good, and calibrating an opinion that has no right answer to begin with. I didn’t fully appreciate that going in, and a chunk of this draft is me discovering it the slow way, by building the wrong-shaped thing first and then rebuilding it.</p><p>The layered structure : graders, then fixtures that test the graders, then tasks that use both, is the version I’ve landed on for now, but I don’t think it’s the last version. The fixtures idea specifically came from realizing I had no way to know if a grader was actually any good, which is an embarrassing thing to notice after you’ve already built a dozen graders. I expect more gaps like that to show up the more I actually run this instead of just building it.</p><p>So I’m treating this as active work, not a conclusion. Some of what’s here will probably look wrong to me in a month. But, I’d rather publish the rough version and refine it in public than sit on it until it feels done, because that’s the purpose of this series. The next post, will be about putting the v0 into production to come full circle before starting to work on the next iteration (i.e examining every detail of the system, laying emphasis on it’s performance on interpretability). Stay tuned! </p><h2></h2>
+      </div>
+      <p class="post-origin">Originally published on <a href="https://mindsandai.substack.com/p/building-seesaw-agentic-ai-to-do-f30">Mind &amp; AI on Substack</a>.</p>
+      <nav class="post-nav"><a href="/blog/building-seesaw-part-5/"><span>← Previous</span>Building Seesaw: Agentic AI to do AI Safety Research, Part 5</a><a class="next" href="/blog/building-seesaw-part-7/"><span>Next →</span>Building Seesaw: Agentic AI to do AI Safety Research, Part 7</a></nav>
+    </article>
+  </main>
+
+  <footer class="wrap footer">
+    <span>© Vijayasri Iyer</span>
+    <a href="https://mindsandai.substack.com">Subscribe on Substack ↗</a>
+  </footer>
+</body>
+</html>
