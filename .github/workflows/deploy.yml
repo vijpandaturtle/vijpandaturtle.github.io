@@ -10,22 +10,30 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  # Upload and deploy run as separate jobs (GitHub's starter layout): the deploy
+  # step could not see an artifact uploaded earlier in the same job.
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v5
